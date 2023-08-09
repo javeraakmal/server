@@ -1,0 +1,20 @@
+const fs = require("fs");
+
+// sum(3, 8);
+// multiply(4,2);
+// Console.log(os.platform() );
+// Console.log(os.cpus().length );
+// Console.log(os. arch() );
+
+
+fs.writeFile("sample.txt", "<h1>hello world</h1>", (error) => {
+    if (error) {
+        console.log(error)
+    } else {
+        console.log("successfully created");
+    }
+});
+
+
+const content = fs.readFileSync("./sample.txt", "utf-8");
+console.log(content);

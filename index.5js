@@ -1,0 +1,95 @@
+const express = require("express");
+const fs = require("fs");
+const { request } = require("http");
+const app = express();
+app.use(express.json())
+app.get("/", (request, response) => {
+
+  const htmlContent = fs.readFileSync("./pages/home.html", "utf-8");
+  const obj = {
+
+    title: 'test product',
+    price: 13.5,
+    description: 'lorem ipsum set',
+    image: 'https://i.pravatar.cc',
+    category: 'electronic'
+
+  }
+  response.json(obj)
+})
+
+//   app.get("/search", (request, response) => {
+//     const queryIndex = request.query.index;
+
+//     console.log("index::", queryIndex);
+
+//     const fruits = ["apple", "mango", "banana"];
+
+//     const fruit = fruits[queryIndex];
+
+//     if(fruit == undefined){
+//       response.json({
+//         status:"false",
+//       })
+//     }else{
+//       response.json({
+//         status: "true",
+//         fruit: fruit
+//       })
+//     }
+// });
+
+app.get("/student/:no", (request,response) => {
+  const no = request.params.no
+  const data = [
+    {
+      "email": "dictum.placerat.augue@hotmail.net",
+      "name": "Lilah Terry",
+      "country": "Netherlands"
+    },
+    {
+      "email": "nonummy@hotmail.edu",
+      "name": "Unity Branch",
+      "country": "United Kingdom"
+    },
+    {
+      "email": "sit.amet.faucibus@outlook.com",
+      "name": "Uma Williamson",
+      "country": "Netherlands"
+    }
+  ];
+
+  response.json({
+    no: no,
+    data:data[no]
+  })
+}
+)
+const students = [] ;
+
+app.post("/create-user", (request,response) =>{
+  console.log(request.body)
+  students.push(request.body)
+  response.json({
+    students:students
+  })
+})
+app.delete("/delete-user/:id", (request,response) =>{
+  const index = request.params.id;
+  students.splice(index,1);
+  response.json({
+    students:students
+  })
+})
+app.get("/user-get/:id", (request,response) =>{
+  const index = request.params.id;
+  response.json({
+    student:students[index]
+  })
+});
+
+
+
+app.listen(3003, () => {
+  console.log("server is running");
+})
